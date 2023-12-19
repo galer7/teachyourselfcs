@@ -1,0 +1,105 @@
+# 1. Building Abstractions with Procedures
+
+> Computational processes are abstract beings that inhabit computers. As they evolve, processes manipulate other abstract things called data. The evolution of a process is directed by a pattern of rules called a program. People create programs to direct processes. In effect, we conjure the spirits of the computer with our spells.
+
+Lisp was invented by John McCarthy in the 1950s. It uses recursion equations as a model of computation. Lisp stands for "List Processing".
+
+Lisp descriptions of processes, called procedures, can be represented as List data.
+
+## 1.1 The Elements of Programming
+
+Every powerful language has three mechanisms for accomplishing this:
+1. **primitive expressions**, which represent the simplest entities the language is concerned with,
+2. **means of combination**, by which compound elements are built from simpler ones, and
+3. **means of abstraction**, by which compound elements can be named and manipulated as units.
+
+We deal with 2 kinds of elements: procedures and data.
+
+> Number representation in programming languages can differ quite a bit e.g. 6 divided by 2 is 3 or 3.0?
+
+Lisp uses prefix notation, which is a way of writing arithmetic expressions in which the operator is written before the operands. e.g. (+ 2 3) is 5.
+
+### 1.1.2 Naming and the Environment
+
+The interpreter maintains a memory area called the environment. The environment holds the variables and their values, and we can use more than one environment at a time (will be discussed later).
+
+### 1.1.3 Evaluating Combinations
+
+To evaluate a combination, do the following:
+1. Evaluate the subexpressions of the combination.
+2. Apply the procedure that is the value of the leftmost subexpression (the operator) to the arguments that are the values of the other subexpressions (the operands).
+
+![Building the subexpression tree](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/ch1-Z-G-1.gif)
+
+> Providing an environment is an important role in our understanding of the program execution
+
+We also have special forms, which are evaluated differently from combinations. e.g. `define` is a special form that associates a name with a value. These special forms are defining the syntax of the language.
+
+### 1.1.4 Compound Procedures
+
+We can define our own procedures using `define`:
+`(define (<name> <formal parameters>) <body>)`
+
+e.g. `(define (square x) (* x x))`. We cannot know if `square` was built into the interpreter or defined by the user (for now?).
+
+### 1.1.5 The Substitution Model for Procedure Application
+
+In order to evaluate a compound procedure using the substitution model, we evaluate the body of the procedure with each formal parameter replaced by the corresponding argument.
+
+e.g. `(square (+ 2 5))` is evaluated as follows:
+1. Evaluate the operator `square` and the operands `(+ 2 5)` (given that we had defined `square` as `(define (square x) (* x x))` previously).
+2. Substitute the operands `(+ 2 5)` for the formal parameter `x` in the body of the procedure `(* x x)`.
+
+Over the course of the book, we will examine different models of how the interpreter works. The substitution model is the simplest one. In chapter 5, we will see a complete implementation of an interpreter for Scheme.
+
+#### Applicative order versus normal order
+
+In contrast to the substitution model (also known as application order), normal-order evaluation is a strategy in which arguments are not evaluated before they are substituted into the procedure. Instead, the expressions are substituted in their original form and then left to be evaluated whenever the interpreter gets around to it.
+
+For all combinations that are modeled using the applicative-order evaluation, normal-order evaluation will produce the same value. However, the opposite is not true.
+
+```scheme
+(define a 3)
+
+; Applicative-order evaluation
+(sum-of-squares (+ a 1) (* a 2))
+(sum-of-squares (+ 3 1) (* 3 2))
+(+ (square 4) (square 6))
+(+ (* 4 4) (* 6 6))
+(+ 16 36)
+
+; Normal-order evaluation
+(sum-of-squares (+ a 1) (* a 2))
+(+ (square (+ a 1)) (square (* a 2)))
+(+ (* (+ a 1) (+ a 1)) (* (* a 2) (* a 2)))
+(+ (* (+ 3 1) (+ 3 1)) (* (* 3 2) (* 3 2)))
+(+ (* 4 4) (* 6 6))
+(+ 16 36)
+```
+
+Lisp uses applicative-order evaluation, which means that all the arguments to procedures are evaluated when the procedure is applied. This helps because we can avoid evaluating the same subexpression more than once (observe the difference in the number of steps in the above example).
+
+### 1.1.6 Conditional Expressions and Predicates
+
+`(if <predicate> <consequent> <alternative>)`, `(and <e_1> ... <e_n>)` and `(or <e_1> ... <e_n>)` are special forms because the subexpressions are not necessarily all evaluated. For example, if the first subexpression of `and` evaluates to `false`, then the value of the entire `and` expression is `false` and the remaining subexpressions are not evaluated. Similarly, if the first subexpression of `or` evaluates to `true`, then the value of the entire `or` expression is `true` and the remaining subexpressions are not evaluated.
+
+### 1.1.7 Example: Square Roots by Newton's Method
+
+Declarative vs imperative knowledge:
+- Math is the paradigm of declarative knowledge. A mathematical statement asserts a fact about the world.
+- Computer programs, on the other hand, describe processes. They tell the computer to follow a sequence of steps.
+
+To find the square root of a number `x`, we will use the Newton's method. We start with a guess `y` and improve it by taking the mean of `y` and `x/y`. We can repeat this process until we are satisfied with the accuracy of the result.
+
+Why `x/y`, you might ask?
+
+```
+y = sqrt(x)
+y^2 = x
+y^2 - x = 0
+(y^2 - x) / y = 0
+y - x/y = 0
+y = x/y
+```
+
+But, even with this, it's hard to find the value of y for which `y = x/y`. So, we will start with a guess `y` and improve it by taking the mean of `y` and `x/y`.
