@@ -103,3 +103,25 @@ y = x/y
 ```
 
 But, even with this, it's hard to find the value of y for which `y = x/y`. So, we will start with a guess `y` and improve it by taking the mean of `y` and `x/y`.
+
+### 1.1.8 Procedures as Black-Box Abstractions
+
+`sqrt-iter` is recursive because it is defined in terms of itself. The process of computing the square root is recursive because `sqrt-iter` is called as part of its own definition.
+
+When we right code, we apply procedural decomposition, which means that we break down the problem into subproblems that are themselves instances of the same problem, and then we solve each subproblem by applying the same strategy.
+
+For example, we can define the `square` method in multiple ways, that is not important to the `good-enough?` method. Similarly, we can define the `good-enough?` method in multiple ways, that is not important to the `sqrt-iter` method.
+
+#### Local names
+
+The procedure *binds* the local names to the values of the arguments and then executes the body of the procedure in the context of this binding. The names of the formal parameters of a procedure have a scope that extends throughout the body of the procedure. We say that the procedure definition binds its formal parameters. When we bind a formal parameter, a scope is created in which the formal parameter is bound to a particular value.
+
+If a variable is not bound, we say that it is *free* e.g. `*` is a free variable in `(define (square x) (* x x))`.
+
+#### Internal definitions and block structure
+
+To avoid naming collisions, we can define a procedure inside another procedure. This is called *block structure*.
+
+Doing this, we can also apply *lexical scoping*, which means that the scope of a procedure is the body of the procedure in which the procedure is defined. In JavaScript, this is called *closure*.
+
+The idea of *block structure* first appeared in Algol 60.
