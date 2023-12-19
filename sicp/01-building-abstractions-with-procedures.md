@@ -91,19 +91,6 @@ Declarative vs imperative knowledge:
 
 To find the square root of a number `x`, we will use the Newton's method. We start with a guess `y` and improve it by taking the mean of `y` and `x/y`. We can repeat this process until we are satisfied with the accuracy of the result.
 
-Why `x/y`, you might ask?
-
-```
-y = sqrt(x)
-y^2 = x
-y^2 - x = 0
-(y^2 - x) / y = 0
-y - x/y = 0
-y = x/y
-```
-
-But, even with this, it's hard to find the value of y for which `y = x/y`. So, we will start with a guess `y` and improve it by taking the mean of `y` and `x/y`.
-
 ### 1.1.8 Procedures as Black-Box Abstractions
 
 `sqrt-iter` is recursive because it is defined in terms of itself. The process of computing the square root is recursive because `sqrt-iter` is called as part of its own definition.
@@ -209,5 +196,3 @@ For this process, the time complexity grows with the number of nodes in above tr
 See [01.2-count-change.rkt](01.2-count-change.rkt).
 
 > Memoization (or tabulation) can sometimes be used to transform processes that require an exponential number of steps (such as count-change) into processes whose space and time requirements grow linearly with the input.
-
-### Memoization
