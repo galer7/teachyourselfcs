@@ -206,3 +206,7 @@ $n$ can be different for different types of problem e.g. it can be the accurate 
 > We say that $R(n)$ has order of growth $\Theta(f(n))$ if there are positive constants $k_1$ and $k_2$ such that $k_1 f(n) \leq R(n) \leq k_2 f(n)$ for any sufficiently large value of $n$.
 
 The order of growth is also useful when (besides its use in ranking algorithms) we want to, let's say, double the size of our input. If we know that the order of growth is $\Theta(n^2)$, then we know that the amount of resources required will be 4 times the amount of resources required for the original input.
+
+### 1.2.4 Exponentiation
+
+We can use successive squaring to compute exponentiation in logarithmic time.
