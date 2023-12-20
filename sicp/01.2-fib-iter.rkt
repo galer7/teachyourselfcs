@@ -8,4 +8,4 @@
       b
       (fib-iter (+ a b) a (- count 1))))
 
-(fib 10)
+(fib 1000000)
