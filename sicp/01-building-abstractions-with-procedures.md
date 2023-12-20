@@ -196,3 +196,13 @@ For this process, the time complexity grows with the number of nodes in above tr
 See [01.2-count-change.rkt](01.2-count-change.rkt).
 
 > Memoization (or tabulation) can sometimes be used to transform processes that require an exponential number of steps (such as count-change) into processes whose space and time requirements grow linearly with the input.
+
+### 1.2.3 Orders of Growth
+
+Let's consider $n$ as the size of the problem that we analyze, and $R(n)$ as the amount of resources that the process requires for the problem.
+
+$n$ can be different for different types of problem e.g. it can be the accurate digits when we are computing square roots, or it can be the number of elements in a list when we are sorting it (most of the time, we will use the number of elements in a list). $R(n)$ can be the number of registers used, the number of elementary machine operations performed, or the amount of memory needed.
+
+> We say that $R(n)$ has order of growth $\Theta(f(n))$ if there are positive constants $k_1$ and $k_2$ such that $k_1 f(n) \leq R(n) \leq k_2 f(n)$ for any sufficiently large value of $n$.
+
+The order of growth is also useful when (besides its use in ranking algorithms) we want to, let's say, double the size of our input. If we know that the order of growth is $\Theta(n^2)$, then we know that the amount of resources required will be 4 times the amount of resources required for the original input.
