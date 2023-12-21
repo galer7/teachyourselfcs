@@ -184,6 +184,8 @@ We must not confuse a recursive process with a recursive procedure. A recursive 
 
 Scheme implementations are required to be tail-recursive, which means that whenever a procedure returns, it does so by returning the value of a call to itself. This allows us to implement iterative processes in a recursive style. This guarantees that an iterative process will execute in constant space, even if the iterative procedure is described by a recursive procedure.
 
+Tail recursion is a compiler optimization trick.
+
 ### 1.2.2 Tree Recursion
 
 ![The tree-recursive process generated in computing (fib 5).](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/ch1-Z-G-13.gif)
@@ -209,4 +211,50 @@ The order of growth is also useful when (besides its use in ranking algorithms) 
 
 ### 1.2.4 Exponentiation
 
-We can use successive squaring to compute exponentiation in logarithmic time.
+The normal algorithm will yield a linear recursive process, meaning time complexity of $\Theta(n)$ and space complexity of $\Theta(1)$.
+
+We can use successive squaring to compute exponentiation in logarithmic time. The idea is to use the following equations:
+
+$$
+a^n = \begin{cases}
+  (a^{n/2})^2 & \text{if $n$ is even} \\
+  a \cdot a^{n-1} & \text{if $n$ is odd}
+\end{cases}
+$$
+
+This will yield a logarithmic recursive process, meaning time complexity of $\Theta(\log n)$ and space complexity of $\Theta(1)$.
+
+### 1.2.5 Greatest Common Divisors
+
+The greatest common divisor (GCD) of two integers $a$ and $b$ is the largest integer that divides both $a$ and $b$ with no remainder.
+
+We can use the following equations to compute the GCD:
+
+$$
+\begin{align}
+  gcd(a, b) &= gcd(b, a \mod b) \\
+  gcd(a, 0) &= a
+\end{align}
+$$
+
+To determine the order of growth of this algorithm, we can use Lamé's theorem:
+
+> Lamé's theorem: If Euclid's Algorithm requires $k$ steps to compute the GCD of some pair, then the smaller number in the pair must be greater than or equal to the $k$-th Fibonacci number, $Fib(k)$.
+
+Let $n$ be the smaller number in the pair. If Euclid's Algorithms process takes $k$ steps, then we must have $n \geq Fib(k) \approx \phi^k / \sqrt{5}$. Also, if we have $k$ steps, then the process must grow by at least a factor of $\phi$ each step. Therefore, the number of steps $k$ must be approximately $\log_\phi n$, which means that the order of growth is $\Theta(\log n)$.
+
+### 1.2.6 Example: Testing for Primality
+
+We have 2 algorithms for testing primality:
+1. The first one is to test whether $n$ is divisible by any integer between 2 and $\sqrt{n}$. This algorithm has a time complexity of $\Theta(\sqrt{n})$.
+2. The second one is a probabilistic one, called the Fermat test. It says that if $n$ is prime, then for any integer $a$ in the range $1 < a < n$, we have $a^n \equiv a \mod n$, meaning that $a^n$ and $a$ have the same remainder when divided by $n$. This algorithm has a time complexity of $\Theta(\log n)$.
+
+For the first one, please see [01.2-prime-linear.rkt](01.2-prime-linear.rkt). For the second one, please see [01.2-prime-log.rkt](01.2-prime-log.rkt).
+
+#### Probabilistic methods
+
+There are numbers that pass the Fermat test but are not prime.
+
+> Numbers that fool the Fermat test are called Carmichael numbers, and little is known about them other than that they are extremely rare. There are 255 Carmichael numbers below 100,000,000. The smallest few are 561, 1105, 1729, 2465, 2821, and 6601. In testing primality of very large numbers chosen at random, the chance of stumbling upon a value that fools the Fermat test is less than the chance that cosmic radiation will cause the computer to make an error in carrying out a ``correct'' algorithm. Considering an algorithm to be inadequate for the first reason but not for the second illustrates the difference between mathematics and engineering.
+
+These probabilistic methods are useful in the cryptography field. For example, the RSA algorithm uses the fact that it is easy to compute the product of two large prime numbers, but it is very difficult to factor a large number into its prime factors. The RSA algorithm uses the Fermat test to check if a large number is prime.
