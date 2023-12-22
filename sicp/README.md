@@ -1,9 +1,6 @@
 # Structure and Interpretation of Computer Programs
 
-<p align="center">
-  <img src="https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/cover.jpg" />
-</p>
-
+![Cover image](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/cover.jpg)
 
 ## Online textbook
 
