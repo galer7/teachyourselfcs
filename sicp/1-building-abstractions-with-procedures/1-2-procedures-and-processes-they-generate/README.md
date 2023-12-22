@@ -136,7 +136,24 @@ We have 2 algorithms for testing primality:
 1. The first one is to test whether $n$ is divisible by any integer between 2 and $\sqrt{n}$. This algorithm has a time complexity of $\Theta(\sqrt{n})$.
 2. The second one is a probabilistic one, called the Fermat test. It says that if $n$ is prime, then for any integer $a$ in the range $1 < a < n$, we have $a^n \equiv a \mod n$, meaning that $a^n$ and $a$ have the same remainder when divided by $n$. This algorithm has a time complexity of $\Theta(\log n)$.
 
-For the first one, please see [1-2-prime-linear.rkt](1-2-prime-linear.rkt). For the second one, please see [1-2-prime-log.rkt](1-2-prime-log.rkt).
+### Searching for divisors
+
+> Q: Why do we test only for divisors less than or equal to $\sqrt{n}$?
+> 
+> A: https://stackoverflow.com/a/59441147/12443809
+
+
+For implementation, please see [1-2-prime-linear.rkt](1-2-prime-linear.rkt). For the second one, please see [1-2-prime-log.rkt](1-2-prime-log.rkt).
+
+### The Fermat test
+
+> Fermat's Little Theorem: If $n$ is a prime number, for any positive integer $a < n$, then $a^n \equiv a \mod n$ ($a^n$ is congruent to $a$ modulo $n$).
+
+In other words:
+
+> $a^n \mod n = a \mod n = a$
+>
+> Two numbers are said to be congruent modulo $n$ if they both have the same remainder when divided by $n$. The remainder of a number $a$ when divided by $n$ is also referred to as the remainder of $a$ modulo $n$, or simply as $a$ modulo $n$.
 
 To understand the primality testing algorithm which uses the Fermat test, you have to think of the halving 
 
