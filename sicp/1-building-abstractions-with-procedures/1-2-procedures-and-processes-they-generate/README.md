@@ -143,7 +143,7 @@ We have 2 algorithms for testing primality:
 > A: https://stackoverflow.com/a/59441147/12443809
 
 
-For implementation, please see [1-2-prime-linear.rkt](1-2-prime-linear.rkt). For the second one, please see [1-2-prime-log.rkt](1-2-prime-log.rkt).
+For implementation, see [1-2-prime-linear.rkt](1-2-prime-linear.rkt).
 
 ### The Fermat test
 
@@ -155,7 +155,7 @@ In other words:
 >
 > Two numbers are said to be congruent modulo $n$ if they both have the same remainder when divided by $n$. The remainder of a number $a$ when divided by $n$ is also referred to as the remainder of $a$ modulo $n$, or simply as $a$ modulo $n$.
 
-To understand the primality testing algorithm which uses the Fermat test, you have to think of the halving 
+For the implementation, see [1-2-prime-log.rkt](1-2-prime-log.rkt).
 
 ### Probabilistic methods
 
