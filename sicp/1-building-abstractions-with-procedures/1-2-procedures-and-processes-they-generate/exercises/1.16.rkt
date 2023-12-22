@@ -11,9 +11,11 @@
 
 (define (fast-expt b n)
   (define (fast-expt-iter current-exp acc)
-    (cond   ((= current-exp n) acc)
-            ((even? n)  (fast-expt-iter (+ current-exp (/ n 2)) (* acc (square b))))
-            (else       (fast-expt-iter (+ current-exp       1) (* acc b)))))
+    (cond  ((= current-exp n) acc)
+           ((even? n)  (fast-expt-iter (+ current-exp (/ n 2)) (* acc (square b))))
+
+
+           (else        (fast-expt-iter (+ current-exp       1) (* acc b)))))
 
   (fast-expt-iter 0 1))
 
