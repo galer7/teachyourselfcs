@@ -58,3 +58,16 @@
 (pi 100000) ; 3.141608361277941
 
 ; b. If your product procedure generates a recursive process, write one that generates an iterative process. If it generates an iterative process, write one that generates a recursive process.
+
+; Currently, our process is iterative because the product procedure is iterative. To make the process recursive, we just need to change the product procedure to be recursive.
+
+(define (product-rec term a next b)
+  (if (> a b)
+      1
+      (* (term a) (product-rec term (next a) next b))))
+
+(define (pi-rec limit)
+  (define (pi-term x)
+    (/ (numerator-pi-term x) (denominator-pi-term x)))
+
+  (* 4 (product-rec pi-term 1.0 inc limit)))
