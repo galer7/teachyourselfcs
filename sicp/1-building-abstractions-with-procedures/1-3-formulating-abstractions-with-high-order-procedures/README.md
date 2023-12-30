@@ -54,3 +54,61 @@ $$ \int_a^b f(x) dx = \left[ f\left( a + \frac{dx}{2} \right) + f\left( a + dx +
   (* (sum f (+ a (/ dx 2.0)) add-dx b)
      dx))
 ```
+
+## 1.3.2 Constructing Procedures Using `Lambda`
+
+### Using `let` to create local variables
+
+```scheme
+(define (f x y)
+  (define (square x) (* x x))
+  (+ (square x) (square y)))
+```
+
+The above procedure can be rewritten using `let`:
+
+```scheme
+(define (f x y)
+  (let ((square (lambda (x) (* x x))))
+    (+ (square x) (square y))))
+```
+
+## 1.3.3 Procedures as General Methods
+
+### Finding roots of equations by the half-interval method
+
+We can use the half-interval method to find roots of equations. The half-interval method takes two values `a` and `b` such that `f(a)` and `f(b)` have opposite signs. It then keeps halving the interval until the interval is small enough.
+
+```scheme
+(define (search f neg-point pos-point)
+  (let ((midpoint (average neg-point pos-point)))
+    (if (close-enough? neg-point pos-point)
+        midpoint
+        (let ((test-value (f midpoint)))
+          (cond ((positive? test-value)
+                 (search f neg-point midpoint))
+                ((negative? test-value)
+                 (search f midpoint pos-point))
+                (else midpoint))))))
+```
+
+### Finding fixed points of functions
+
+A number `x` is called a **fixed point** of a function `f` if `x` satisfies the equation `f(x) = x`. For some functions `f` we can locate the fixed points by beginning with an initial guess and applying `f` repeatedly:
+
+$$ x, f(x), f(f(x)), f(f(f(x))), \cdots $$
+
+We can stop when the value of `f(x)` is close enough to `x`.
+
+```scheme
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+```
