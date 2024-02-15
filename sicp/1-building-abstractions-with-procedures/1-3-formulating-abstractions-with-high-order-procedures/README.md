@@ -80,16 +80,15 @@ The above procedure can be rewritten using `let`:
 We can use the half-interval method to find roots of equations. The half-interval method takes two values `a` and `b` such that `f(a)` and `f(b)` have opposite signs. It then keeps halving the interval until the interval is small enough.
 
 ```scheme
-(define (search f neg-point pos-point)
-  (let ((midpoint (average neg-point pos-point)))
-    (if (close-enough? neg-point pos-point)
-        midpoint
-        (let ((test-value (f midpoint)))
-          (cond ((positive? test-value)
-                 (search f neg-point midpoint))
-                ((negative? test-value)
-                 (search f midpoint pos-point))
-                (else midpoint))))))
+(define (half-interval-method f a b)
+  (let ((a-value (f a))
+        (b-value (f b)))
+    (cond ((and (negative? a-value) (positive? b-value))
+           (search f a b))
+          ((and (negative? b-value) (positive? a-value))
+           (search f b a))
+          (else
+           (error "Values are not of opposite sign" a b)))))
 ```
 
 ### Finding fixed points of functions
@@ -112,3 +111,21 @@ We can stop when the value of `f(x)` is close enough to `x`.
           (try next))))
   (try first-guess))
 ```
+
+## 1.3.4 Procedures as Returned Values
+
+### Newton's method
+
+Newton's method formula:
+
+$$ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} $$
+
+The Newton's method doubles the number of digits of accuracy at each step.
+
+The derivative of a function `g` is defined as:
+
+$$ g'(x) = \lim_{dx \to 0} \frac{g(x + dx) - g(x)}{dx} $$
+
+### Abstractions and first-class procedures
+
+> The major implementation cost of first-class procedures is that allowing procedures to be returned as values requires reserving storage for a procedure's free variables even while the procedure is not executing. In the Scheme implementation we will study in section 4.1, these variables are stored in the procedure's environment.

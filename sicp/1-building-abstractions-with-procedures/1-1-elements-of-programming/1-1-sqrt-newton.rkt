@@ -17,7 +17,7 @@
       (sqrt-iter (improve guess x) x)))
 
 (define (sqrt x)
-  (sqrt-iter 1.0 x)) ; Start with a guess of 1.0
+  (sqrt-iter 1.0 x)) ; Start with an initial guess of 1.0
 
 (sqrt 9) ; 3.00009155413138
 (square (sqrt 1000)) ; 1000.000369924366
